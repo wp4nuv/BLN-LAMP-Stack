@@ -22,8 +22,6 @@
 ##   $ cp env-example .env
 ##
 
-version: '2.3'
-
 
 ################################################################################
 # SERVICES
@@ -87,9 +85,9 @@ services:
 
     # MacOS and Windows have this by default, this hack also allows it for Linux
     extra_hosts:
-      docker.for.lin.host.internal: 172.16.238.1
-      docker.for.lin.localhost: 172.16.238.1
-      host.docker.internal: host-gateway
+      - "docker.for.lin.host.internal=172.16.238.1"
+      - "docker.for.lin.localhost=172.16.238.1"
+      - "host.docker.internal=host-gateway"
 
     networks:
       app_net:
@@ -170,9 +168,9 @@ services:
 
     # MacOS and Windows have this by default, this hack also allows it for Linux
     extra_hosts:
-      docker.for.lin.host.internal: 172.16.238.1
-      docker.for.lin.localhost: 172.16.238.1
-      host.docker.internal: host-gateway
+      - "docker.for.lin.host.internal=172.16.238.1"
+      - "docker.for.lin.localhost=172.16.238.1"
+      - "host.docker.internal=host-gateway"
 
     networks:
       app_net:
@@ -341,7 +339,7 @@ services:
   # MySQL Database
   # ------------------------------------------------------------
   mysql:
-    image: devilbox/mysql:${MYSQL_SERVER}-0.21
+    image: mysql:${MYSQL_SERVER}
     hostname: mysql
 
     environment:
@@ -363,7 +361,7 @@ services:
       # Mount devilbox user-defined cnf files in order
       # to overwrite the MySQL server configuration
       - ${DEVILBOX_PATH}/.devilbox/cfg/mysql.cnf:/etc/mysql/conf.d/devilbox.cnf:ro${MOUNT_OPTIONS}
-      - ${DEVILBOX_PATH}/cfg/${MYSQL_SERVER}:/etc/mysql/docker-default.d:ro${MOUNT_OPTIONS}
+      - ${DEVILBOX_PATH}/cfg/${MYSQL_SERVER}:/etc/mysql/conf.d:ro${MOUNT_OPTIONS}
 
       # Mount MySQL Data directory
       - devilbox-${MYSQL_SERVER}:/var/lib/mysql:rw${MOUNT_OPTIONS}
